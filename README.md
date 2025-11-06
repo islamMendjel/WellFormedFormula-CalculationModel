@@ -61,8 +61,8 @@ The goal is to **model and visualize the calculation process of well-formed form
 |--------|-----------|----------|
 | `A` | ✅ | Atomic proposition |
 | `~A` | ✅ | Negation |
-| `(A|B)&(~C|D)` | ✅ | Complex logical formula |
-| `(A∨B)∧(¬C∨D)` | ✅ | Unicode symbols supported |
+| `(A&B)&(~C&D)` | ✅ | Complex logical formula |
+| `(A∧B)∧(¬C∧D)` | ✅ | Unicode symbols supported |
 | `A&` | ❌ | Invalid formula |
 
 ---
