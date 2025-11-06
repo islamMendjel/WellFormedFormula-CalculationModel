@@ -17,12 +17,14 @@ The goal is to **model and visualize the calculation process of well-formed form
 ### ⚙️ Example
 
 **Input formula:**
+```
 (A∨B)∧(¬C∨D)
-
+```
 
 **Normalized:**
+```
 (A|B)&(~C|D)
-
+```
 
 **Output (tree image):**
 
@@ -72,11 +74,11 @@ The goal is to **model and visualize the calculation process of well-formed form
   → [Download Graphviz](https://graphviz.org/download/)
 
 **Install Python dependency:**
-```bash
+```
 pip install graphviz
 ```
 ▶️ Run the Program
-```bash
+```
 python WFF.py
 ```
 
