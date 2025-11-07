@@ -1,4 +1,4 @@
-# 🧠 Well-Formed Formula – Calculation Model
+# 🧠 WFF = Well Formed Formula
 
 ### 📘 Description
 
