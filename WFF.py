@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 from graphviz import Digraph
 
@@ -17,6 +18,8 @@ def normalize(expr: str) -> str:
     """ --> Remove spaces and replace the connectors """
     expr = expr.replace(" ", "")
     expr = expr.replace("∨", "|").replace("∧", "&").replace("¬", "~")
+    if not re.fullmatch(r"[A-Z|&~()]*", expr):
+        raise ValueError(f"formule logique non bien formée: {expr}")
     return expr
 
 
@@ -141,45 +144,77 @@ def _add_nodes(dot: Digraph, node: Node, parent_id=None, counter=[0]):
 # =============================
 # 5. Test section
 # =============================
-if __name__ == "__main__":
-    formulas = [
-        "A",
-        "~A",
-        "A&B",
-        "~A&(B)",
-        "A|B&C|D",
-        "(A|B)&(~C|D)",
-        "(A∨B)∧(¬C∨D)",  # Unicode-friendly
-        "A&",
-        "~(A|)",
-        # specifically test the edge case the bug caused:
-        "~C|D",
-        "(~C|D)",
-        "(A|B)&(C|D)&(E|F)&(G|H)&(I|J)&(K|L)&(M|N)&(O|P)&(Q|R)&(S|T)&(U|V)&(W|X)&(Y|Z)",
-        "((~C&D)|(~E&F))&((G&~H)|(I&~J))",
-        "((~C&D)|(~E&F))&",
-        "(A|~B)&(~C|D)",
-        "(A&B)|~C"
-    ]
+# if __name__ == "__main__":
+#     formulas = [
+#         "A",
+#         "~A",
+#         "A&B",
+#         "~A&(B)",
+#         "A|B&C|D",
+#         "(A|B)&(~C|D)",
+#         "(A∨B)∧(¬C∨D)",  # Unicode-friendly
+#         "A&",
+#         "~(A|)",
+#         # specifically test the edge case the bug caused:
+#         "~C|D",
+#         "(~C|D)",
+#         "(A|B)&(C|D)&(E|F)&(G|H)&(I|J)&(K|L)&(M|N)&(O|P)&(Q|R)&(S|T)&(U|V)&(W|X)&(Y|Z)",
+#         "((~C&D)|(~E&F))&((G&~H)|(I&~J))",
+#         "((~C&D)|(~E&F))&",
+#         "(A|~B)&(~C|D)",
+#         "(A&B)|~C"
+#     ]
 
-    for f in formulas:
-        print(f"\nFormula: {f}")
+#     for f in formulas:
+#         print(f"\nFormula: {f}")
+#         try:
+#             tree = build_tree(f)
+#             if is_well_formed(tree):
+#                 print("✅ Well-formed. Drawing tree...")
+#                 safe_name = (
+#                     f.replace("~", "not_")
+#                      .replace("|", "or_")
+#                      .replace("&", "and_")
+#                      .replace("∨", "or_")
+#                      .replace("∧", "and_")
+#                      .replace("¬", "not_")
+#                      .replace("(", "")
+#                      .replace(")", "")
+#                 )
+#                 draw_tree(tree, filename=safe_name[:80])
+#             else:
+#                 print("❌ Not well-formed.")
+#         except Exception as e:
+#             print("❌ Error:", e)
+
+
+# ================================
+# 6. Read inputs from user section
+# ================================
+if __name__ == "__main__":
+    print("=== Logic Formula Parser ===")
+    print("Enter a logic formula (ex: (A∨B)∧(¬C∨D))")
+    user_formula = input("→ Formula : ").strip()
+
+    if not user_formula:
+        print("❌ No Formula has been entred.")
+    else:
         try:
-            tree = build_tree(f)
+            tree = build_tree(user_formula)
             if is_well_formed(tree):
                 print("✅ Well-formed. Drawing tree...")
                 safe_name = (
-                    f.replace("~", "not_")
-                     .replace("|", "or_")
-                     .replace("&", "and_")
-                     .replace("∨", "or_")
-                     .replace("∧", "and_")
-                     .replace("¬", "not_")
-                     .replace("(", "")
-                     .replace(")", "")
+                    user_formula.replace("~", "not_")
+                                .replace("|", "or_")
+                                .replace("&", "and_")
+                                .replace("∨", "or_")
+                                .replace("∧", "and_")
+                                .replace("¬", "not_")
+                                .replace("(", "")
+                                .replace(")", "")
                 )
                 draw_tree(tree, filename=safe_name[:80])
             else:
                 print("❌ Not well-formed.")
         except Exception as e:
-            print("❌ Error:", e)
+            print(f"❌ Error: {e}")
