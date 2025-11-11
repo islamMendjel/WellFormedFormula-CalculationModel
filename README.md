@@ -93,8 +93,8 @@ Formula: (A|B)&(~C|D)
 This project was developed as part of the “Well-Formed Formula – Calculation Model” coursework.
 It demonstrates:
 
-recursive tree construction,
+1 - recursive tree construction,
 
-syntactic validation of logical formulas, and
+2 - syntactic validation of logical formulas,
 
-visualization of propositional logic using Graphviz.
+3 - visualization of propositional logic using Graphviz.
